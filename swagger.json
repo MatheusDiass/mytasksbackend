@@ -14,5 +14,130 @@
             "url": "http://localhost:3001",
             "description": "Backend de desenvolvimento"
         }
-    ]
+    ],
+
+    "paths": {
+        "/register": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Esse endpoint realiza o cadastro o usuário",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Matheus Dias"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example":"matheus@dias.com"
+                                        },
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request<br><br>Possíveis Mensagens:<br>Parâmetros passados incorretamente!",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error<br><br>Mensagens variam de acordo com o erro interno gerado",
+                        "content": {}
+                    }
+                }
+            }
+        },
+
+        "/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Esse endpoint para realizar o login do usuário",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Matheus Dias"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example":"matheus@dias.com"
+                                        },
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request<br><br>Possíveis Mensagens:<br>Email não cadastrado!<br>Senha incorreta!",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error<br><br>Mensagens variam de acordo com o erro interno gerado",
+                        "content": {}
+                    }
+                }
+            }
+        }
+    }
 }
