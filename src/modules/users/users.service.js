@@ -1,6 +1,8 @@
 import User from './user.model.js';
 import md5 from 'md5';
+import jwt from 'jsonwebtoken';
 class UserService {
+  //Realiza o cadastro do usuário
   async register(user) {
     const { name, email, password } = user;
 
@@ -13,8 +15,63 @@ class UserService {
       const hashPassword = md5(password);
       user.password = hashPassword;
 
+      //Realiza o cadastro do usuário
       await User.create(user);
+
+      //Criação do token
+      const token = jwt.sign({
+        name: user.name,
+        email: user.email, 
+      }, process.env.SECRET, { expiresIn: '2000' });
+
+      const userData = {
+        name: user.name,
+        email: user.email,
+        token,
+      };
+
+      return userData;
     } catch (error) {
+      throw { data: error, code: 500 };
+    }
+  }
+
+  //Realiza o login do usuário
+  async login(user) {
+    const { email, password } = user;
+
+    try {
+      //Busca as informações do usuário
+      const user = await User.findOne({ email });
+      
+      //Caso o usuário não for encontrado é gerado um erro
+      if(!user) {
+        throw { data: 'Email não cadastrado!', code: 400 };
+      }
+
+      //Criação do hash da senha
+      const hashPassword = md5(password);
+
+      /*Caso a senha do usuário não for igual a do banco de dados
+      é gerado um erro */
+      if(user.password !== hashPassword) {
+        throw { data: 'Senha incorreta!', code: 400 };
+      }
+
+      //Criação do token
+      const token = jwt.sign({
+        name: user.name,
+        email: user.email, 
+      }, process.env.SECRET, { expiresIn: '2000' });
+
+      const userData = {
+        name: user.name,
+        email: user.email,
+        token,
+      };
+
+      return userData;
+    } catch(error) {
       throw { data: error, code: 500 };
     }
   }

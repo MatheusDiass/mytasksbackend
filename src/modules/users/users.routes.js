@@ -10,13 +10,31 @@ router.post('/register', async (req, res) => {
   const user = req.body;
 
   try {
-    await UserService.register(user);
+    //Realiza o cadastro do usuário
+    const userData = await UserService.register(user);
+
+    res.status(201);
+    res.json(userData);
+  } catch (error) {
+    const { data, code } = error.data;
+    res.status(code);
+    res.json(data);
+  }
+});
+
+router.post('/login', async (req, res) => {
+  const user = req.body;
+
+  try {
+    //Realiza o login do usuário
+    const userData = await UserService.login(user);
 
     res.status(200);
-    res.json('Cadastro realizado com sucesso!');
-  } catch (error) {
-    res.status(error.code);
-    res.json(error.data);
+    res.json(userData);
+  } catch(error) {
+    const { data, code } = error.data;
+    res.status(code);
+    res.json(data);
   }
 });
 
