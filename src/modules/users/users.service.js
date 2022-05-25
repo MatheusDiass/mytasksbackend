@@ -75,6 +75,16 @@ class UserService {
       throw { data: error, code: 500 };
     }
   }
+
+  async fetchUsers() {
+    try {
+      const users = await User.find().select('name email');
+
+      return users;
+    } catch(error) {
+      throw { data: error, code: 500 };
+    }
+  }
 }
 
 export default new UserService();
