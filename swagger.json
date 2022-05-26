@@ -45,7 +45,7 @@
                     "required": true
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Sucesso",
                         "content": {
                             "application/json": {
@@ -173,6 +173,49 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Internal Server Error<br><br>Mensagens variam de acordo com o erro interno gerado",
+                        "content": {}
+                    }
+                }
+            }
+        },
+
+        "/groups": {
+            "post": {
+                "tags": [
+                    "Tasks Group"
+                ],
+                "summary": "Esse endpoint adiciona um novo grupo de tarefas",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "taskIdList": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Sucesso"
+                    },
+                    "400": {
+                        "description": "Bad Request<br><br>Possíveis Mensagens:<br>Parâmetros passados incorretamente!",
+                        "content": {}
                     },
                     "500": {
                         "description": "Internal Server Error<br><br>Mensagens variam de acordo com o erro interno gerado",
