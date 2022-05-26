@@ -182,6 +182,59 @@
             }
         },
 
+        "/users/{id}": {
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true
+                    }
+                ],
+                "summary": "Esse endpoint realiza a atualização dos dados do usuário",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Sucesso"
+                    },
+                    "400": {
+                        "description": "Bad Request<br><br>Possíveis Mensagens:<br>Parâmetros passados incorretamente!<br>Usuário não encontrado!",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error<br><br>Mensagens variam de acordo com o erro interno gerado",
+                        "content": {}
+                    }
+                }
+            }
+        },
+
         "/groups": {
             "post": {
                 "tags": [
