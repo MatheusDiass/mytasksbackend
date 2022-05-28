@@ -29,7 +29,24 @@ router.get('/groups', async (req, res) => {
 
     res.status(200);
     res.json(groups);
-  } catch(error) {
+  } catch (error) {
+    const { data, code } = error.data;
+    res.status(code);
+    res.json(data);
+  }
+});
+
+//Atualiza as informações de um grupo de tarefas
+router.put('/groups/:id', async (req, res) => {
+  const id = req.params.id;
+  const group = req.body;
+
+  try {
+    await GroupService.updateGroups(id, group);
+
+    res.status(200);
+    res.json('Dados atualizados com sucesso!');
+  } catch (error) {
     const { data, code } = error.data;
     res.status(code);
     res.json(data);
