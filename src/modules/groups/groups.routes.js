@@ -53,4 +53,20 @@ router.put('/groups/:id', async (req, res) => {
   }
 });
 
+//Deleta um grupo de tarefas
+router.delete('/groups/:id', async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    await GroupService.deleteGroup(id);
+
+    res.status(200);
+    res.json('Grupo deletado com sucesso!');
+  } catch(error) {
+    const { data, code } = error.data;
+    res.status(code);
+    res.json(data);
+  }
+});
+
 export default router;
