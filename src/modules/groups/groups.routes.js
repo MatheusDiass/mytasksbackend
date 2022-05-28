@@ -6,7 +6,7 @@ const router = express.Router();
 import GroupService from './groups.service.js';
 
 //Routes
-//Adiciona o grupo de tarefas
+//Adiciona um grupo de tarefas
 router.post('/groups', async (req, res) => {
   const group = req.body;
 
@@ -16,6 +16,20 @@ router.post('/groups', async (req, res) => {
     res.status(201);
     res.json('Grupo adicionado com sucesso!');
   } catch (error) {
+    const { data, code } = error.data;
+    res.status(code);
+    res.json(data);
+  }
+});
+
+//Obtém todos os grupos de tarefas
+router.get('/groups', async (req, res) => {
+  try {
+    const groups = await GroupService.fetchGroups();
+
+    res.status(200);
+    res.json(groups);
+  } catch(error) {
     const { data, code } = error.data;
     res.status(code);
     res.json(data);
