@@ -38,6 +38,37 @@ router.post('/login', async (req, res) => {
   }
 });
 
+//Obtém todos os usuários
+router.get('/users', async (req, res) => {
+  try {
+    const users = await UserService.fetchUsers();
+
+    res.status(200);
+    res.json(users);
+  } catch (error) {
+    const { data, code } = error.data;
+    res.status(code);
+    res.json(data);
+  }
+});
+
+//Atualiza as informações de um usuário
+router.put('/users/:id', async (req, res) => {
+  const id = req.params.id;
+  const user = req.body;
+
+  try {
+    await UserService.updateUser(id, user);
+
+    res.status(200);
+    res.json('Dados atualizados com sucesso!');
+  } catch (error) {
+    const { data, code } = error.data;
+    res.status(code);
+    res.json(data);
+  }
+});
+
 router.patch('/addFriend/:userId/:friendId', async (req, res) => {
   const userId = req.params.userId;
   const friendId = req.params.friendId;
@@ -55,31 +86,15 @@ router.patch('/addFriend/:userId/:friendId', async (req, res) => {
   }
 });
 
-//Obtém todos os usuários
-router.get('/users', async (req, res) => {
-  try {
-    const users = await UserService.fetchUsers();
-
-    res.status(200);
-    res.json(users);
-  } catch(error) {
-    const { data, code } = error.data;
-    res.status(code);
-    res.json(data);
-  }
-});
-
-//Atualiza as informações de um usuário
-router.put('/users/:id', async (req, res) => {
-  const id = req.params.id;
-  const user = req.body;
+router.get('/friends/:userId', async (req, res) => {
+  const userId = req.params.userId;
 
   try {
-    await UserService.updateUser(id, user);
+    const friends = await UserService.fetchFriends(userId);
 
     res.status(200);
-    res.json('Dados atualizados com sucesso!');
-  } catch(error) {
+    res.json(friends);
+  } catch (error) {
     const { data, code } = error.data;
     res.status(code);
     res.json(data);
