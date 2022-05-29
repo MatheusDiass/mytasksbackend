@@ -83,6 +83,38 @@ class UserService {
       throw { data: error, code: 500 };
     }
   }
+  
+  //Obtém todos os usuários
+  async fetchUsers() {
+    try {
+      const users = await User.find().select('name email');
+
+      return users;
+    } catch (error) {
+      throw { data: error, code: 500 };
+    }
+  }
+
+  //Atualiza as informações de um usuário
+  async updateUser(id, user) {
+    const { name, email, password } = user;
+
+    try {
+      if (!id || !name || !email || !password) {
+        throw { data: 'Parâmetros passados incorretamente!', code: 400 };
+      }
+      
+      const operationInfo = await User.updateOne({ _id: id }, user);
+      
+      if(!operationInfo.matchedCount) {
+        throw { data: 'Usuário não encontrado!', code: 400 };
+      }
+    } catch (error) {
+      throw { data: error, code: 500 };
+    }
+  }
+   
+  //Adiciona um amigo
   async addFriend(userId, friendId) {
     try {
       if (!userId || !friendId) {
