@@ -19,10 +19,14 @@ class UserService {
       await User.create(user);
 
       //Criação do token
-      const token = jwt.sign({
-        name: user.name,
-        email: user.email, 
-      }, process.env.SECRET, { expiresIn: '2000' });
+      const token = jwt.sign(
+        {
+          name: user.name,
+          email: user.email,
+        },
+        process.env.SECRET,
+        { expiresIn: '2000' }
+      );
 
       const userData = {
         name: user.name,
@@ -43,9 +47,9 @@ class UserService {
     try {
       //Busca as informações do usuário
       const user = await User.findOne({ email });
-      
+
       //Caso o usuário não for encontrado é gerado um erro
-      if(!user) {
+      if (!user) {
         throw { data: 'Email não cadastrado!', code: 400 };
       }
 
@@ -54,15 +58,19 @@ class UserService {
 
       /*Caso a senha do usuário não for igual a do banco de dados
       é gerado um erro */
-      if(user.password !== hashPassword) {
+      if (user.password !== hashPassword) {
         throw { data: 'Senha incorreta!', code: 400 };
       }
 
       //Criação do token
-      const token = jwt.sign({
-        name: user.name,
-        email: user.email, 
-      }, process.env.SECRET, { expiresIn: '2000' });
+      const token = jwt.sign(
+        {
+          name: user.name,
+          email: user.email,
+        },
+        process.env.SECRET,
+        { expiresIn: '2000' }
+      );
 
       const userData = {
         name: user.name,
@@ -71,7 +79,26 @@ class UserService {
       };
 
       return userData;
-    } catch(error) {
+    } catch (error) {
+      throw { data: error, code: 500 };
+    }
+  }
+  async addFriend(userId, friendId) {
+    try {
+      if (!userId || !friendId) {
+        throw { data: 'Parâmetros passados incorretamente!', code: 400 };
+      }
+      const operationInfo = await User.updateOne(
+        { _id: userId },
+        {
+          $push: { friend: friendId },
+        }
+      );
+
+      if (!operationInfo.matchedCount) {
+        throw { data: 'Usuario não encontrado!', code: 400 };
+      }
+    } catch (error) {
       throw { data: error, code: 500 };
     }
   }

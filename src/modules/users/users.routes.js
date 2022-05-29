@@ -31,7 +31,24 @@ router.post('/login', async (req, res) => {
 
     res.status(200);
     res.json(userData);
-  } catch(error) {
+  } catch (error) {
+    const { data, code } = error.data;
+    res.status(code);
+    res.json(data);
+  }
+});
+
+router.patch('/addFriend/:userId/:friendId', async (req, res) => {
+  const userId = req.params.userId;
+  const friendId = req.params.friendId;
+
+  try {
+    await UserService.addFriend(userId, friendId);
+
+    res.status(200);
+
+    res.json('Amigo adicionado com sucesso!');
+  } catch (error) {
     const { data, code } = error.data;
     res.status(code);
     res.json(data);
