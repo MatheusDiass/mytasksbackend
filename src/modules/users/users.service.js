@@ -29,6 +29,7 @@ class UserService {
       );
 
       const userData = {
+        id: user._id,
         name: user.name,
         email: user.email,
         token,
@@ -73,6 +74,7 @@ class UserService {
       );
 
       const userData = {
+        id: user._id,
         name: user.name,
         email: user.email,
         token,
@@ -120,10 +122,11 @@ class UserService {
       if (!userId || !friendId) {
         throw { data: 'Parâmetros passados incorretamente!', code: 400 };
       }
+
       const operationInfo = await User.updateOne(
         { _id: userId },
         {
-          $push: { friend: friendId },
+          $push: { friends: friendId },
         }
       );
 
