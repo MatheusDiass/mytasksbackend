@@ -116,6 +116,23 @@ class UserService {
     }
   }
 
+  //Busca todos os amigos
+  async fetchFriends(userId) {
+    try {
+      if (!userId) {
+        throw { data: 'Parâmetros passados incorretamente!', code: 400 };
+      }
+
+      const { friends } = await User.findOne({ _id: userId }).select('friends');
+
+      const friendsData = await User.find({ _id: { $in: friends } });
+
+      return friendsData;
+    } catch (error) {
+      throw { data: error, code: 500 };
+    }
+  }
+
   //Adiciona um amigo
   async addFriend(userId, friendId) {
     try {
@@ -138,18 +155,25 @@ class UserService {
     }
   }
 
-  //Busca todos os amigos
-  async fetchFriends(userId) {
+  //Deleta um amigo
+  async deleteFriend(userId, friendId) {
+    console.log(userId);
+    console.log(friendId);
     try {
-      if (!userId) {
+      if (!userId || !friendId) {
         throw { data: 'Parâmetros passados incorretamente!', code: 400 };
       }
 
-      const { friends } = await User.findOne({ _id: userId }).select('friends');
+      const operationInfo = await User.updateOne(
+        { _id: userId },
+        {
+          $pull: { friends: friendId },
+        }
+      );
 
-      const friendsData = await User.find({ _id: { $in: friends } });
-
-      return friendsData;
+      if (!operationInfo.matchedCount) {
+        throw { data: 'Usuario não encontrado!', code: 400 };
+      }
     } catch (error) {
       throw { data: error, code: 500 };
     }
