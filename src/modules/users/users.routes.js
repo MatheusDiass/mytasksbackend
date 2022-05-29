@@ -69,23 +69,6 @@ router.put('/users/:id', async (req, res) => {
   }
 });
 
-router.patch('/addFriend/:userId/:friendId', async (req, res) => {
-  const userId = req.params.userId;
-  const friendId = req.params.friendId;
-
-  try {
-    await UserService.addFriend(userId, friendId);
-
-    res.status(200);
-
-    res.json('Amigo adicionado com sucesso!');
-  } catch (error) {
-    const { data, code } = error.data;
-    res.status(code);
-    res.json(data);
-  }
-});
-
 router.get('/friends/:userId', async (req, res) => {
   const userId = req.params.userId;
 
@@ -95,6 +78,38 @@ router.get('/friends/:userId', async (req, res) => {
     res.status(200);
     res.json(friends);
   } catch (error) {
+    const { data, code } = error.data;
+    res.status(code);
+    res.json(data);
+  }
+});
+
+router.patch('/friends/:userId/:friendId', async (req, res) => {
+  const userId = req.params.userId;
+  const friendId = req.params.friendId;
+
+  try {
+    await UserService.addFriend(userId, friendId);
+
+    res.status(200);
+    res.json('Amigo adicionado com sucesso!');
+  } catch (error) {
+    const { data, code } = error.data;
+    res.status(code);
+    res.json(data);
+  }
+});
+
+router.delete('/friends/:userId/:friendId', async (req, res) => {
+  const userId = req.params.userId;
+  const friendId = req.params.friendId;
+
+  try {
+    await UserService.deleteFriend(userId, friendId);
+
+    res.status(200);
+    res.json('Amigo deletado com sucesso!');
+  } catch(error) {
     const { data, code } = error.data;
     res.status(code);
     res.json(data);
