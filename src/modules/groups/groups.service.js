@@ -16,12 +16,23 @@ class GroupService {
     }
   }
 
-  //Obtém todos os grupos de tarefas
-  async fetchGroups(userId) {
+  //Obtém todos os grupos de tarefas do usuário
+  async fetchGroupsByUser(userId) {
     try {
       const groups = await Group.find({ userId });
 
       return groups;
+    } catch (error) {
+      throw { data: error, code: 500 };
+    }
+  }
+
+  //Obtém um grupo de tarefas
+  async fetchGroup(id) {
+    try {
+      const group = await Group.find({ _id: id });
+
+      return group;
     } catch (error) {
       throw { data: error, code: 500 };
     }
