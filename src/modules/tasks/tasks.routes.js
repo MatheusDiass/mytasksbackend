@@ -21,15 +21,31 @@ router.post('/tasks', async (req, res) => {
   }
 });
 
-//Obtém todas as tarefas
-router.get('/tasks/:userId', async (req, res) => {
+//Obtém todas as tarefas do usuário
+router.get('/tasks/user/:userId', async (req, res) => {
   const userId = req.params.userId;
 
   try {
-    const tasks = await TasksService.fetchTasks(userId);
+    const tasks = await TasksService.fetchTasksByUser(userId);
 
     res.status(200);
     res.json(tasks);
+  } catch (error) {
+    const { data, code } = error.data;
+    res.status(code);
+    res.json(data);
+  }
+});
+
+//Obtém uma tarefa
+router.get('/tasks/:id', async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const task = await TasksService.fetchTask(id);
+
+    res.status(200);
+    res.json(task);
   } catch (error) {
     const { data, code } = error.data;
     res.status(code);

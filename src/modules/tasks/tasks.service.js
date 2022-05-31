@@ -15,12 +15,23 @@ class TasksService {
     }
   }
 
-  //Obtém todas as tarefas
-  async fetchTasks(userId) {
+  //Obtém todas as tarefas do usuario
+  async fetchTasksByUser(userId) {
     try {
       const tasks = await Task.find({ userId });
 
       return tasks;
+    } catch (error) {
+      throw { data: error, code: 500 };
+    }
+  }
+
+  //Obtém uma tarefa
+  async fetchTask(id) {
+    try {
+      const task = await Task.find({ _id: id });
+
+      return task;
     } catch (error) {
       throw { data: error, code: 500 };
     }
