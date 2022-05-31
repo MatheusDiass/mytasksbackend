@@ -21,13 +21,32 @@ router.post('/tasks', async (req, res) => {
   }
 });
 
+//Deletar tarefa
 router.delete('/tasks/:taskId', async (req, res) => {
   const taskId = req.params.taskId;
   try {
-    await UserService.deleteTasks(taskId);
+    await TasksService.deleteTasks(taskId);
 
     res.status(200);
     res.json('Tarefa Apagada!');
+  } catch (error) {
+    
+   const { data, code } = error.data;
+    res.status(code);
+   res.json(data); 
+  }
+});
+
+//Editar tarefa
+router.put('/tasks/:taskId', async (req, res) => {
+  const taskId = req.params.id;
+  const task = req.body;
+
+  try {
+    await TasksService.updateGroups(taskId,task);
+
+    res.status(200);
+    res.json('Dados atualizados com sucesso!');
   } catch (error) {
     const { data, code } = error.data;
     res.status(code);
