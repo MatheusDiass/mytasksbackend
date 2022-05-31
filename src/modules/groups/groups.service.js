@@ -3,10 +3,10 @@ import Group from './group.model.js';
 class GroupService {
   //Adiciona um grupo de tarefas
   async save(group) {
-    const { name } = group;
+    const { name, userId } = group;
 
     try {
-      if (!name) {
+      if (!userId || !name) {
         throw { data: 'Parâmetros passados incorretamente!', code: 400 };
       }
 
@@ -17,9 +17,9 @@ class GroupService {
   }
 
   //Obtém todos os grupos de tarefas
-  async fetchGroups() {
+  async fetchGroups(userId) {
     try {
-      const groups = await Group.find();
+      const groups = await Group.find({ userId });
 
       return groups;
     } catch (error) {

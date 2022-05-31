@@ -23,9 +23,11 @@ router.post('/groups', async (req, res) => {
 });
 
 //Obtém todos os grupos de tarefas
-router.get('/groups', async (req, res) => {
+router.get('/groups/:userId', async (req, res) => {
+  const userId = req.params.userId;
+
   try {
-    const groups = await GroupService.fetchGroups();
+    const groups = await GroupService.fetchGroups(userId);
 
     res.status(200);
     res.json(groups);
