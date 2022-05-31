@@ -30,10 +30,9 @@ router.delete('/tasks/:taskId', async (req, res) => {
     res.status(200);
     res.json('Tarefa Apagada!');
   } catch (error) {
-    
-   const { data, code } = error.data;
+    const { data, code } = error.data;
     res.status(code);
-   res.json(data); 
+    res.json(data);
   }
 });
 
@@ -43,7 +42,7 @@ router.put('/tasks/:taskId', async (req, res) => {
   const task = req.body;
 
   try {
-    await TasksService.updateGroups(taskId,task);
+    await TasksService.updateTasks(taskId, task);
 
     res.status(200);
     res.json('Dados atualizados com sucesso!');
@@ -54,4 +53,17 @@ router.put('/tasks/:taskId', async (req, res) => {
   }
 });
 
+//Mostrar tarefas
+router.get('/tasks', async (req, res) => {
+  try {
+    const tasks = await TasksService.fetchTasks();
+
+    res.status(200);
+    res.json(tasks);
+  } catch (error) {
+    const { data, code } = error.data;
+    res.status(code);
+    res.json(data);
+  }
+});
 export default router;
