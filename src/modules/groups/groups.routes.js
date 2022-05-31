@@ -11,7 +11,7 @@ router.post('/groups', async (req, res) => {
   const group = req.body;
 
   try {
-    await GroupService.save(group);
+    await GroupService.addGroup(group);
 
     res.status(201);
     res.json('Grupo adicionado com sucesso!');
@@ -44,7 +44,7 @@ router.put('/groups/:id', async (req, res) => {
   const group = req.body;
 
   try {
-    await GroupService.updateGroups(id, group);
+    await GroupService.updateGroup(id, group);
 
     res.status(200);
     res.json('Dados atualizados com sucesso!');

@@ -1,7 +1,7 @@
 import Task from './task.model.js';
 
 class TasksService {
-  async save(task) {
+  async addGroup(task) {
     const { title } = task;
 
     try {
@@ -15,30 +15,25 @@ class TasksService {
     }
   }
 
-  //Deletar tarefa
-  async deleteTasks(taskId) {
+  //Obtém todas as tarefas
+  async fetchTasks(userId) {
     try {
-      if (!taskId) {
-        throw { data: 'Parâmetros passados incorretamente!', code: 400 };
-      }
+      const tasks = await Task.find({ userId });
 
-      const operationInfo = await Task.deleteOne({ _id: taskId });
-
-      if (!operationInfo.deletedCount) {
-        throw { data: 'tarefa não encontrada!', code: 400 };
-      }
+      return tasks;
     } catch (error) {
       throw { data: error, code: 500 };
     }
   }
+
   //Editar tarefa
-  async updateTasks(taskId, task) {
+  async updateTask(id, task) {
     try {
-      if (!taskId) {
+      if (!id) {
         throw { data: 'Parâmetros passados incorretamente!', code: 400 };
       }
 
-      const operationInfo = await task.updateOne({ _id: taskId }, task);
+      const operationInfo = await Task.updateOne({ _id: id }, task);
 
       if (!operationInfo.matchedCount) {
         throw { data: 'Tarefa não encontrada!', code: 400 };
@@ -48,12 +43,18 @@ class TasksService {
     }
   }
 
-  //Mostrar tarefas
-  async fetchTasks() {
+  //Deletar tarefa
+  async deleteTask(id) {
     try {
-      const tasks = await Task.find();
+      if (!id) {
+        throw { data: 'Parâmetros passados incorretamente!', code: 400 };
+      }
 
-      return tasks;
+      const operationInfo = await Task.deleteOne({ _id: id });
+
+      if (!operationInfo.deletedCount) {
+        throw { data: 'tarefa não encontrada!', code: 400 };
+      }
     } catch (error) {
       throw { data: error, code: 500 };
     }

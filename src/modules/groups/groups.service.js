@@ -2,7 +2,7 @@ import Group from './group.model.js';
 
 class GroupService {
   //Adiciona um grupo de tarefas
-  async save(group) {
+  async addGroup(group) {
     const { name, userId } = group;
 
     try {
@@ -28,7 +28,7 @@ class GroupService {
   }
 
   //Atualiza as informações de um grupo de tarefas
-  async updateGroups(id, group) {
+  async updateGroup(id, group) {
     const { name } = group;
 
     try {
