@@ -32,9 +32,7 @@ class TasksService {
     }
   }
   //Editar tarefa
-  async updatetasks(taskId, task) {
-  
-
+  async updateTasks(taskId, task) {
     try {
       if (!taskId) {
         throw { data: 'Parâmetros passados incorretamente!', code: 400 };
@@ -45,6 +43,17 @@ class TasksService {
       if (!operationInfo.matchedCount) {
         throw { data: 'Tarefa não encontrada!', code: 400 };
       }
+    } catch (error) {
+      throw { data: error, code: 500 };
+    }
+  }
+
+  //Mostrar tarefas
+  async fetchTasks() {
+    try {
+      const tasks = await Task.find();
+
+      return tasks;
     } catch (error) {
       throw { data: error, code: 500 };
     }
