@@ -2,7 +2,8 @@ import mongoose from 'mongoose';
 
 const Group = mongoose.model('Group', {
   name: String,
-  taskIdList: Array,
+  tasks: Array,
+  userId: String,
 });
 
 export default Group;

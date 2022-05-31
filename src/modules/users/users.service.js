@@ -28,8 +28,10 @@ class UserService {
         { expiresIn: '2000' }
       );
 
+      const id = user._id.toString();
+
       const userData = {
-        id: user._id,
+        id,
         name: user.name,
         email: user.email,
         token,
@@ -73,8 +75,10 @@ class UserService {
         { expiresIn: '2000' }
       );
 
+      const id = user._id.toString();
+
       const userData = {
-        id: user._id,
+        id,
         name: user.name,
         email: user.email,
         token,
@@ -157,8 +161,6 @@ class UserService {
 
   //Deleta um amigo
   async deleteFriend(userId, friendId) {
-    console.log(userId);
-    console.log(friendId);
     try {
       if (!userId || !friendId) {
         throw { data: 'Parâmetros passados incorretamente!', code: 400 };
