@@ -4,8 +4,8 @@ const Task = mongoose.model('Task', {
   title: String,
   date: String,
   description: String,
-  listId: String,
-  friendIdList: Array,
+  group: String,
+  friends: Array,
   userId: String,
 });
 
