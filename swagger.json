@@ -45,7 +45,7 @@
                     "required": true
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Sucesso",
                         "content": {
                             "application/json": {
@@ -85,7 +85,7 @@
                 "tags": [
                     "User"
                 ],
-                "summary": "Esse endpoint para realizar o login do usuário",
+                "summary": "Esse endpoint realiza o login do usuário",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -130,6 +130,144 @@
                     },
                     "400": {
                         "description": "Bad Request<br><br>Possíveis Mensagens:<br>Email não cadastrado!<br>Senha incorreta!",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error<br><br>Mensagens variam de acordo com o erro interno gerado",
+                        "content": {}
+                    }
+                }
+            }
+        },
+
+        "/users": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Esse endpoint obtém todos os usuários",
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "_id": {
+                                                "type": "string",
+                                                "example": "628d61cf3aef9efd3551b93a"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Matheus Dias"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "example":"matheus@dias.com"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error<br><br>Mensagens variam de acordo com o erro interno gerado",
+                        "content": {}
+                    }
+                }
+            }
+        },
+
+        "/users/{id}": {
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true
+                    }
+                ],
+                "summary": "Esse endpoint realiza a atualização dos dados do usuário",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Sucesso"
+                    },
+                    "400": {
+                        "description": "Bad Request<br><br>Possíveis Mensagens:<br>Parâmetros passados incorretamente!<br>Usuário não encontrado!",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error<br><br>Mensagens variam de acordo com o erro interno gerado",
+                        "content": {}
+                    }
+                }
+            }
+        },
+
+        "/groups": {
+            "post": {
+                "tags": [
+                    "Tasks Group"
+                ],
+                "summary": "Esse endpoint adiciona um novo grupo de tarefas",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "taskIdList": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Sucesso"
+                    },
+                    "400": {
+                        "description": "Bad Request<br><br>Possíveis Mensagens:<br>Parâmetros passados incorretamente!",
                         "content": {}
                     },
                     "500": {
