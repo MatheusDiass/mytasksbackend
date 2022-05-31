@@ -4,8 +4,9 @@ const Task = mongoose.model('Task', {
   title: String,
   date: String,
   description: String,
-  listId: Number,
+  listId: String,
   friendIdList: Array,
+  userId: String,
 });
 
 export default Task;

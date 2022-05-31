@@ -1,19 +1,19 @@
 //Modulos express
 import express from 'express';
-
 const router = express.Router();
 
 //Service
 import TasksService from '../tasks/tasks.service.js';
 
+//Routes
+//Adiciona uma tarefa
 router.post('/tasks', async (req, res) => {
   const task = req.body;
   try {
-    //Salva tarefa
-    await TasksService.save(task);
+    await TasksService.addGroup(task);
 
     res.status(201);
-    res.json('Tarefa salva com sucesso');
+    res.json('Tarefa adicionada com sucesso');
   } catch (error) {
     const { data, code } = error.data;
     res.status(code);
@@ -21,14 +21,15 @@ router.post('/tasks', async (req, res) => {
   }
 });
 
-//Deletar tarefa
-router.delete('/tasks/:taskId', async (req, res) => {
-  const taskId = req.params.taskId;
+//Obtém todas as tarefas
+router.get('/tasks/:userId', async (req, res) => {
+  const userId = req.params.userId;
+
   try {
-    await TasksService.deleteTasks(taskId);
+    const tasks = await TasksService.fetchTasks(userId);
 
     res.status(200);
-    res.json('Tarefa Apagada!');
+    res.json(tasks);
   } catch (error) {
     const { data, code } = error.data;
     res.status(code);
@@ -36,13 +37,13 @@ router.delete('/tasks/:taskId', async (req, res) => {
   }
 });
 
-//Editar tarefa
-router.put('/tasks/:taskId', async (req, res) => {
-  const taskId = req.params.id;
+//Atualiza as informações de uma tarefa
+router.put('/tasks/:id', async (req, res) => {
+  const id = req.params.id;
   const task = req.body;
 
   try {
-    await TasksService.updateTasks(taskId, task);
+    await TasksService.updateTask(id, task);
 
     res.status(200);
     res.json('Dados atualizados com sucesso!');
@@ -53,17 +54,20 @@ router.put('/tasks/:taskId', async (req, res) => {
   }
 });
 
-//Mostrar tarefas
-router.get('/tasks', async (req, res) => {
+//Deleta uma tarefa
+router.delete('/tasks/:id', async (req, res) => {
+  const id = req.params.id;
+  
   try {
-    const tasks = await TasksService.fetchTasks();
+    await TasksService.deleteTask(id);
 
     res.status(200);
-    res.json(tasks);
+    res.json('Tarefa deletada com sucesso!');
   } catch (error) {
     const { data, code } = error.data;
     res.status(code);
     res.json(data);
   }
 });
+
 export default router;
