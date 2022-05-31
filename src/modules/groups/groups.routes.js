@@ -22,15 +22,31 @@ router.post('/groups', async (req, res) => {
   }
 });
 
-//Obtém todos os grupos de tarefas
-router.get('/groups/:userId', async (req, res) => {
+//Obtém todos os grupos de tarefas do usuário
+router.get('/groups/user/:userId', async (req, res) => {
   const userId = req.params.userId;
 
   try {
-    const groups = await GroupService.fetchGroups(userId);
+    const groups = await GroupService.fetchGroupsByUser(userId);
 
     res.status(200);
     res.json(groups);
+  } catch (error) {
+    const { data, code } = error.data;
+    res.status(code);
+    res.json(data);
+  }
+});
+
+//Obtém um grupo de tarefas
+router.get('/groups/:id', async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const group = await GroupService.fetchGroup(id);
+
+    res.status(200);
+    res.json(group);
   } catch (error) {
     const { data, code } = error.data;
     res.status(code);
